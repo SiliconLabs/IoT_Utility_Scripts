@@ -1,15 +1,15 @@
 # What is this?
 Token preserver is a node.js script that does the following:
 
-1. Read a previously generated token header for an appbuilder application.
+1. Read a previously generated token header for a Simplicity Studio AppBuilder generated application.
 1. Read a newly (either new SDK, or changes to the app) generated token header.
 1. Produce a combined novel token header, that will preserve the token structure from the old token header for maximum token data survivability.
 
 # The Situation
-Appliction "tokens" are bits of data stored in Non-Volatile Memory (NVM). They are laid out in NVM when a device is first flashed with an image and the application is run for the first time, or when it is reset to factory defaults. There is a lot of data stored inside tokens that an application will want to keep around across OTA upgrades such as its bindings, pairing, network provisioning, application settings etc... Thus every time a device is OTA upgraded you don't want to have to reset the device to factory defaults you simply want it to come back online by using the same token data from before it was upgraded.
+Application "tokens" are bits of data stored in Non-Volatile Memory (NVM). They are laid out in NVM when a device is first flashed with an image and the application is run for the first time, or when it is reset to factory defaults. There is a lot of data stored inside tokens that an application will want to keep around across OTA upgrades such as its bindings, pairing, network provisioning, application settings etc... Thus every time a device is OTA upgraded you don't want to have to reset the device to factory defaults you simply want it to come back online by using the same token data from before it was upgraded.
 
 # The Problem
-Simplicity Studio's AppBuilder currently (as of SV4.0) regenerates tokens every time an application is modified without regards to how tokens were stored previously within the application. Thus there is no concept in AppBuilder of how the token space 'was' laid out and must persist. The Silicon Labs team is working on a long term solution for this issue, but until one is provided inside the Simplicity Studio tools, there is a bit of a problem, in that we need to introduce the concept of 'old' and 'new' tokens across application upgrades.
+Simplicity Studio's AppBuilder currently (as of SV4.x.x) regenerates tokens every time an application is modified without regards to how tokens were stored previously within the application. Thus there is no concept in AppBuilder of how the token space 'was' laid out and must persist. The Silicon Labs team is working on a long term solution for this issue, but until one is provided inside the Simplicity Studio tools, there is a bit of a problem, in that we need to introduce the concept of 'old' and 'new' tokens across application upgrades.
 
 If the tokens used previously (in the previous version of an application) are not preserved, the application can produce indeterminate results when it is run with a new layout of the token space following an OTA upgrade. A new token might point to the memory of an old one and vice versa. Thus, A token that used to represent the binding of the application might now map to the space for the setting of the light color etc... 
 
