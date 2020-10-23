@@ -103,7 +103,6 @@ function finishedFile() {
   for (const creator in newMap) {
     const newValue = newMap[creator]
     const oldValue = oldMap[creator]
-
     if (newValue == oldValue) {
       // Do nothing...
       note(`  ${creator}: same creator code, stays unchanged.`)
@@ -113,18 +112,23 @@ function finishedFile() {
         // Special case: check for singletons.
         if (
           creator.endsWith('_SINGLETON') &&
-          creator.substring(0, creator.length - 10) in oldMap
+          creator.substring(0, creator.length - 10) + '_1' in oldMap
         ) {
           note(
             `  ${creator}: exists in the old map as non-singleton, code will be reused.`
           )
-          newMap[creator] = oldMap[creator.substring(0, creator.length - 10)]
+          newMap[creator] =
+            oldMap[creator.substring(0, creator.length - 10) + '_1']
           bypass = true
-        } else if (creator + '_SINGLETON' in oldMap) {
+        } else if (
+          creator.substring(0, creator.length - 2) + '_SINGLETON' in
+          oldMap
+        ) {
           note(
             `  ${creator}: exists in the old map as a singleton, code will be reused.`
           )
-          newMap[creator] = oldMap[creator + '_SINGLETON']
+          newMap[creator] =
+            oldMap[creator.substring(0, creator.length - 2) + '_SINGLETON']
           bypass = true
         }
       }
