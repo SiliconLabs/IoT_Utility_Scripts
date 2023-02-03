@@ -167,7 +167,13 @@ function finishedFile() {
       var s = l.split(' ')
       var x = s[1]
       var creator = x.replace('NVM3KEY', 'CREATOR')
-      output(`#define ${x} ( ${s[3]} | ${newMap[creator]} )`)
+      if (s[2].startsWith('(NVM3KEY')) {            
+        //recognize zap-tokens.h file format change. No need for opening "("" as that is included in s[2]  
+        output(`#define ${x} ${s[2]} | ${newMap[creator]})`)
+      } else {                                      
+        //original pre v7 xxx_tokens.h file format where there is a space between "(" and "NVM3KEY_DOMAIN_ZIGBEE"
+        output(`#define ${x} ( ${s[3]} | ${newMap[creator]} )`)
+      }
     } else {
       output(l)
     }
